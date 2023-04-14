@@ -30,12 +30,19 @@ class BookDetailViewModel: ObservableObject {
         loadData()
     }
     
-    // MARK: Methods
     func loadData() {
-        dataService.fetchBookDetail(urlKey: bookKey, completion: { [weak self] item in
-            //print(item?.title)
-            self?.bookDescripsion = item?.description ?? ""
-            self?.bookTitle = item?.title ?? ""
+        isLoading = true
+        
+        dataService.fetchBookDetail(urlKey: bookKey, completion: { [weak self] result in
+            switch result {
+            case .success(let response):
+                self?.bookDescripsion = response.description
+                self?.bookTitle = response.title
+            case .failure(let error):
+                self?.errorMessage = error.localizedDescription
+            }
+            
+            self?.isLoading = false
         })
     }
 }

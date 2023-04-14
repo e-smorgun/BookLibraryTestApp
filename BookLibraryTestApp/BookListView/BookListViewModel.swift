@@ -2,7 +2,7 @@
 //  BookListViewModel.swift
 //  BookLibraryTestApp
 //
-//  Created by Evgeny on 13.04.23.
+//  Created by Evgeny on 14.04.23.
 //
 
 import Foundation
@@ -13,27 +13,22 @@ class BookListViewModel: ObservableObject {
     @Published var errorMessage: String?
     @Published var isLoading: Bool = true
     
+    private let dataService = DataService()
     private var cancellables = Set<AnyCancellable>()
     
-    func fetchBooks() {
-        let url = URL(string: "https://openlibrary.org/subjects/history.json?limit=100")!
-        URLSession.shared.dataTaskPublisher(for: url)
-            .map(\.data)
-            .decode(type: BooksListResponse.self, decoder: JSONDecoder())
-            .map { $0.works }
-            .sink(receiveCompletion: { completion in
-                switch completion {
-                case .failure(let error):
-                    self.errorMessage = error.localizedDescription
-                    print(self.errorMessage)
-                case .finished:
-                    self.isLoading = false
-                    print("good")
-                    break
-                }
-            }, receiveValue: { books in
-                self.books = books
-            })
-            .store(in: &cancellables)
+    
+    func loadData() {
+        isLoading = true
+        
+        dataService.fetchAllBooks { [weak self] result in
+            switch result {
+            case .success(let response):
+                self?.books = response.works
+            case .failure(let error):
+                self?.errorMessage = error.localizedDescription
+            }
+            
+            self?.isLoading = false
+        }
     }
 }

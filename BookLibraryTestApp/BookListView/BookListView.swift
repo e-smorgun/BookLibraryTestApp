@@ -2,7 +2,7 @@
 // BookListView.swift
 // BookLibraryTestApp
 //
-// Created by Evgeny on 13.04.23.
+// Created by Evgeny on 14.04.23.
 //
 
 import SwiftUI
@@ -12,18 +12,24 @@ struct BookListView: View {
     @ObservedObject var viewModel = BookListViewModel()
     
     var body: some View {
-        NavigationView {
-            VStack {
-                if !viewModel.isLoading {
-                    listBodyView
-                } else {
-                    ProgressView()
-                    Text("Loading Data")
+        let networkChecker = isConnectToNetwork()
+        if !networkChecker.hasInternetConnection() {
+            Text("No Internet Connection")
+        } else {
+            NavigationView {
+                VStack {
+                    if viewModel.isLoading {
+                        ProgressView()
+                        Text("Loading Data from Server")
+                    } else if let errorMessage = viewModel.errorMessage {
+                        Text(errorMessage)
+                    } else {
+                        listBodyView
+                    }
                 }
-            }
-        }
-        .onAppear {
-            viewModel.fetchBooks()
+            }.onAppear(perform: {
+                viewModel.loadData()
+            })
         }
     }
     
