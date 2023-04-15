@@ -15,15 +15,11 @@ Swift 5.0 или выше
 
 Клонируйте репозиторий приложения на свой компьютер:
 
-`git clone https://github.com/your-username/your-repository.git`
+`git clone https://github.com/e-smorgun/BookLibraryTestApp.git`
 
-Откройте файл проекта в Xcode:
+Откройте файл проекта в Xcode
 
-`cd your-repository`
-
-`open YourProject.xcodeproj`
-
-Убедитесь, что сборка приложения прошла успешно.Нажмите кнопку "Build" в Xcode.
+Убедитесь, что сборка приложения прошла успешно. Нажмите кнопку "Build" в Xcode.
 
 ### Запуск
 
