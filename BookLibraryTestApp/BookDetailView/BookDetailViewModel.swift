@@ -13,11 +13,11 @@ class BookDetailViewModel: ObservableObject {
     @Published var errorMessage: String?
     
     let bookKey: String
-    @Published var bookAuthors: [Author] = []
+    @Published var bookAuthors: [Author]?
     @Published var bookDescripsion: String = ""
     @Published var bookFirstPublishDate: Int = 0
     @Published var bookTitle: String = ""
-    @Published var bookImageUrl: Int = 0
+    @Published var bookImageUrl: Int?
     
     private let dataService = DataService()
 
@@ -28,6 +28,16 @@ class BookDetailViewModel: ObservableObject {
         self.bookImageUrl = bookImageUrl
         
         loadData()
+    }
+    
+    func checkData() {
+        print("--------------------------------------")
+        print(bookAuthors)
+        print(bookKey)
+        print(bookFirstPublishDate)
+        print(bookImageUrl)
+        print(bookTitle)
+        print(bookDescripsion)
     }
     
     func loadData() {

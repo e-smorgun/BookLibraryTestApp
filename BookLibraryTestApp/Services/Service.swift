@@ -9,6 +9,7 @@ import Foundation
 
 class DataService {
     private func fetchModel<T: Decodable>(from url: URL, completion: @escaping (Result<T, Error>) -> Void) {
+        print(url)
         URLSession.shared.dataTask(with: url) { data, response, error in
             if let error = error {
                 completion(.failure(error))
@@ -35,8 +36,8 @@ class DataService {
     }
     
     func fetchBookDetail(urlKey: String, completion: @escaping (Result<BookDetail, Error>) -> Void) {
-        print("https://openlibrary.org/works/\(urlKey).json")
         let url = URL(string: "https://openlibrary.org\(urlKey).json")!
+
         fetchModel(from: url, completion: completion)
     }
 }

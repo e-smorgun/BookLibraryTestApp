@@ -32,8 +32,10 @@ struct BookDetailView: View {
                     Text("First Publish Date: \(viewModel.bookFirstPublishDate)")
                         .foregroundColor(.secondary)
                     
-                    Text(viewModel.bookDescripsion)
-                        .padding(.bottom, 16)
+                    if let description = viewModel.bookAuthors {
+                        Text(viewModel.bookDescripsion)
+                            .padding(.bottom, 16)
+                    }
                 }
                 .padding()
             }
